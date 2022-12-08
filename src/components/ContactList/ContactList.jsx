@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
-import {
-  ContactListConteiner,
-  ContactListItem,
-  ContactListItemDelete,
-} from './ContactList.styled';
+import { ContactCard } from 'components/ContactCard/ContactCard';
+import { ContactListConteiner } from './ContactList.styled';
 
 export const ContactList = ({ contact, onDelete }) => {
   return (
@@ -12,12 +9,13 @@ export const ContactList = ({ contact, onDelete }) => {
         {contact.map(item => {
           const { id, name, number } = item;
           return (
-            <ContactListItem key={id}>
-              {name}: {number}
-              <ContactListItemDelete onClick={() => onDelete(id)}>
-                Delete
-              </ContactListItemDelete>
-            </ContactListItem>
+            <ContactCard
+              key={id}
+              name={name}
+              number={number}
+              id={id}
+              onDelete={onDelete}
+            />
           );
         })}
       </ContactListConteiner>
@@ -29,9 +27,6 @@ ContactList.propTypes = {
   contact: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
     }).isRequired
   ),
-  onDelete: PropTypes.func.isRequired,
 };
