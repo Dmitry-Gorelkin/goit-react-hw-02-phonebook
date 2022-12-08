@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Container } from './Container/Container';
 import { Section } from './Section/Section';
 import { ContactForm } from './ContactForm/ContactForm';
@@ -26,22 +25,10 @@ export class App extends Component {
     });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { contacts } = this.state;
-    const { name, number } = e.target.elements;
-
-    if (contacts.find(i => i.name.toLowerCase() === name.value.toLowerCase())) {
-      Notify.warning(`${name.value} is already in contacts.`);
-      return;
-    }
-
+  handleSubmit = ({ name, number }) => {
     this.setState(prevState => {
       return {
-        contacts: [
-          ...prevState.contacts,
-          { id: nanoid(), name: name.value, number: number.value },
-        ],
+        contacts: [...prevState.contacts, { id: nanoid(), name, number }],
       };
     });
   };
@@ -62,7 +49,7 @@ export class App extends Component {
     return (
       <Container>
         <Section title="phonebook">
-          <ContactForm onSubmit={this.handleSubmit} />
+          <ContactForm onSubmit={this.handleSubmit} contactList={contacts} />
         </Section>
         <Section title="contacts">
           <Filter onChange={this.handleInput} value={filter} />

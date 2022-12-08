@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Form, Label, Input, Button } from './ContactForm.styled';
 
 export class ContactForm extends Component {
@@ -15,16 +16,29 @@ export class ContactForm extends Component {
     });
   };
 
+  onFormSubmit = e => {
+    e.preventDefault();
+    const { name } = this.state;
+
+    if (
+      this.props.contactList.find(
+        i => i.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      Notify.warning(`${name} is already in contacts.`);
+      this.setState({ name: '' });
+      return;
+    }
+
+    this.props.onSubmit(this.state);
+    this.setState({ name: '', number: '' });
+  };
+
   render() {
     const { name, number } = this.state;
 
     return (
-      <Form
-        onSubmit={e => {
-          this.props.onSubmit(e);
-          this.setState({ name: '', number: '' });
-        }}
-      >
+      <Form onSubmit={this.onFormSubmit}>
         <Label>
           Name
           <Input
@@ -59,5 +73,8 @@ export class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
+  contactList: PropTypes.arrayOf(
+    PropTypes.shape({ name: PropTypes.string.isRequired })
+  ).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
