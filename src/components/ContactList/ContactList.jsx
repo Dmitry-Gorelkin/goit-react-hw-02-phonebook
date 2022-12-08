@@ -13,7 +13,6 @@ export const ContactList = ({ contact, onDelete }) => {
               key={id}
               name={name}
               number={number}
-              id={id}
               onDelete={() => onDelete(id)}
             />
           );
