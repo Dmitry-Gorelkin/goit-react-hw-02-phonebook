@@ -5,16 +5,12 @@ export const ContactCard = ({ id, name, number, onDelete }) => {
   return (
     <ContactListItem>
       {name}: {number}
-      <ContactListItemDelete onClick={() => onDelete(id)}>
-        Delete
-      </ContactListItemDelete>
+      <ContactListItemDelete onClick={onDelete}>Delete</ContactListItemDelete>
     </ContactListItem>
   );
 };
 
 ContactCard.propTypes = {
-  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };

@@ -14,7 +14,7 @@ export const ContactList = ({ contact, onDelete }) => {
               name={name}
               number={number}
               id={id}
-              onDelete={onDelete}
+              onDelete={() => onDelete(id)}
             />
           );
         })}
@@ -29,4 +29,5 @@ ContactList.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired
   ),
+  onDelete: PropTypes.func.isRequired,
 };
